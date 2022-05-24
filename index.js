@@ -70,6 +70,16 @@ async function run() {
 
 
 
+
+        app.get('/order', async (req, res) => {
+            const query = {};
+            const cursor = orderCollection.find(query);
+            const orders = await cursor.toArray();
+            res.send(orders);
+        })
+
+
+
         app.post('/order', async (req, res) => {
             const order = req.body;
             const result = await orderCollection.insertOne(order);
@@ -79,13 +89,13 @@ async function run() {
 
         app.get('/review', async (req, res) => {
             const query = {};
-            const cursor = serviceCollection.find(query);
+            const cursor = reviewCollection.find(query);
             const reviews = await cursor.toArray();
             res.send(reviews);
         })
         app.post('/review', async (req, res) => {
             const newItem = req.body;
-            const result = await serviceCollection.insertOne(newItem);
+            const result = await reviewCollection.insertOne(newItem);
             res.send(result);
         })
 
