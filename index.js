@@ -25,6 +25,7 @@ async function run() {
         const serviceCollection = client.db('manuFacturer').collection('service');
         const orderCollection = client.db('manuFacturer').collection('order');
         const reviewCollection = client.db('manuFacturer').collection('review');
+        const userCollection = client.db('manuFacturer').collection('user');
 
 
         app.get('/service', async (req, res) => {
@@ -97,6 +98,22 @@ async function run() {
             const newItem = req.body;
             const result = await reviewCollection.insertOne(newItem);
             res.send(result);
+        })
+
+
+
+
+        app.put('/user/:email', async (req, res) => {
+            const email = req.params.email;
+            const user = req.body;
+            const filter = { email: email };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: user,
+            };
+            const result = await userCollection.updateOne(filter, updateDoc, options);
+            res.send(result)
+
         })
 
 
