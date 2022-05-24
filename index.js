@@ -24,6 +24,7 @@ async function run() {
         await client.connect();
         const serviceCollection = client.db('manuFacturer').collection('service');
         const orderCollection = client.db('manuFacturer').collection('order');
+        const reviewCollection = client.db('manuFacturer').collection('review');
 
 
         app.get('/service', async (req, res) => {
@@ -74,6 +75,15 @@ async function run() {
             const result = await orderCollection.insertOne(order);
             res.send(result)
         })
+
+
+        app.get('/review', async (req, res) => {
+            const query = {};
+            const cursor = serviceCollection.find(query);
+            const reviews = await cursor.toArray();
+            res.send(reviews);
+        })
+
 
     }
     finally {
