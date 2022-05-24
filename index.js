@@ -83,6 +83,11 @@ async function run() {
             const reviews = await cursor.toArray();
             res.send(reviews);
         })
+        app.post('/review', async (req, res) => {
+            const newItem = req.body;
+            const result = await serviceCollection.insertOne(newItem);
+            res.send(result);
+        })
 
 
     }
