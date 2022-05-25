@@ -41,6 +41,7 @@ async function run() {
         const orderCollection = client.db('manuFacturer').collection('order');
         const reviewCollection = client.db('manuFacturer').collection('review');
         const userCollection = client.db('manuFacturer').collection('user');
+        const profileCollection = client.db('manuFacturer').collection('profile');
 
 
         app.get('/service', async (req, res) => {
@@ -90,6 +91,14 @@ async function run() {
 
         app.get('/order', async (req, res) => {
             const query = {};
+            const cursor = orderCollection.find(query);
+            const orders = await cursor.toArray();
+            res.send(orders);
+        })
+        app.get('/orders', async (req, res) => {
+            const email = req.query.email;
+            console.log(email);
+            const query = { email: email };
             const cursor = orderCollection.find(query);
             const orders = await cursor.toArray();
             res.send(orders);
@@ -163,7 +172,14 @@ async function run() {
             const result = await userCollection.updateOne(filter, updateDoc, options);
             const token = jwt.sign({ email: email }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
             res.send({ result, token });
-        });
+        })
+
+
+        app.post('/profile', async (req, res) => {
+            const newItems = req.body;
+            const result = await profileCollection.insertOne(newItems);
+            res.send(result);
+        })
 
 
     }
