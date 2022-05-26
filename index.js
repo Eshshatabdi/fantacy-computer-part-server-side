@@ -150,6 +150,12 @@ async function run() {
             const result = await orderCollection.insertOne(order);
             res.send(result)
         })
+        app.delete('/order/:email', verifyJWT, async (req, res) => {
+            const email = req.params.email;
+            const filter = { email: email }
+            const result = await orderCollection.deleteOne(filter);
+            res.send(result)
+        })
 
 
         app.get('/review', async (req, res) => {
