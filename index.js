@@ -124,11 +124,11 @@ async function run() {
             res.send(order);
         })
 
-        app.patch('/orders/id', verifyJWT, async (req, res) => {
+        app.patch('/orders/:id', verifyJWT, async (req, res) => {
             const id = req.params.id;
             const payment = req.body;
-            const filter = { _id: ObjectId }
-            const updateDoc = {
+            const filter = { _id: ObjectId(id) };
+            const updatedDoc = {
                 $set: {
                     paid: true,
                     transactionId: payment.transactionId
@@ -137,9 +137,9 @@ async function run() {
             }
             const result = await paymentCollection.insertOne(payment);
 
-            const updatedOrder = await orderCollection.updateOne(filter, updateDoc);
+            const updatedOrder = await orderCollection.updateOne(filter, updatedDoc);
 
-            res.send(updateDoc)
+            res.send(updatedDoc)
 
         })
 
