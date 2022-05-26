@@ -11,7 +11,15 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 
 
-app.use(cors());
+// app.use(cors());
+app.use(
+    cors({
+        origin: true,
+        optionsSuccessStatus: 200,
+        credentials: true,
+    })
+)
+
 app.use(express.json());
 
 
