@@ -147,7 +147,7 @@ async function run() {
 
             const updatedOrder = await orderCollection.updateOne(filter, updatedDoc);
 
-            res.send(updatedDoc)
+            res.send(updatedOrder)
 
         })
 
