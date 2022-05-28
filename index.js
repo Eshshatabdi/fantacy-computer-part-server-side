@@ -107,6 +107,15 @@ async function run() {
         })
 
 
+        app.delete('/service/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await serviceCollection.deleteOne(query);
+            res.send(result);
+
+        })
+
+
 
 
         app.get('/order', async (req, res) => {
@@ -147,7 +156,7 @@ async function run() {
 
             const updatedOrder = await orderCollection.updateOne(filter, updatedDoc);
 
-            res.send(updatedOrder)
+            res.send(updatedOrder);
 
         })
 
