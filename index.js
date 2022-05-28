@@ -143,6 +143,7 @@ async function run() {
 
         app.patch('/orders/:id', verifyJWT, async (req, res) => {
             const id = req.params.id;
+
             const payment = req.body;
             const filter = { _id: ObjectId(id) };
             const updatedDoc = {
@@ -155,6 +156,7 @@ async function run() {
             const result = await paymentCollection.insertOne(payment);
 
             const updatedOrder = await orderCollection.updateOne(filter, updatedDoc);
+            console.log(updatedOrder)
 
             res.send(updatedOrder);
 
